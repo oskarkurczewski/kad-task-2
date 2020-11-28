@@ -1,0 +1,1 @@
+print("Zadanie 2!")
