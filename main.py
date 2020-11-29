@@ -12,14 +12,14 @@ data4 = pd.read_csv("data4.csv", names = ["X1", "X2", "Y"])
 
 # variance
 
-def variance(dt):
+def variancex(dt):
     meanx = dt.X.mean()
-    var = 0
+    varx = 0
 
-    for x in range(100):
-        var += ((dt.X - meanx) * (dt.X - meanx))
+    for i in range(100):
+        varx += ((dt.X[i] - meanx) * (dt.X[i] - meanx))
 
-    return var.mean()
+    return varx/100
 
 # covariance
 
@@ -28,10 +28,10 @@ def covariance(dt):
     meany = dt.Y.mean()
     cov = 0
 
-    for x in range(100):
-        cov += ((dt.X - meanx) * (dt.Y - meany))
+    for i in range(100):
+        cov += ((dt.X[i] - meanx) * (dt.Y[i] - meany))
 
-    return cov.mean()
+    return cov/100
 
 # model 1: f(x) = a * X
 
@@ -46,7 +46,7 @@ def model1(dt):
 def model2(dt):
     meanx = dt.X.mean()
     meany = dt.Y.mean()
-    a = covariance(dt) / variance(dt)
+    a = covariance(dt) / variancex(dt)
     b = meany - a * meanx
     print('f(x) = ' + str(round(a, 2)) + " * X + " + str(round(b, 2)))
 
@@ -54,12 +54,15 @@ print("\n--- ZESTAW DANYCH 1 ---")
 
 model1(data1)
 model2(data1)
+print(variancex(data1))
+print(covariance(data1))
 
 print("\n--- ZESTAW DANYCH 2 ---")
 
 model1(data2)
 model2(data2)
-
+print(variancex(data2))
+print(covariance(data2))
 
 # function plotting a dataframe
 
