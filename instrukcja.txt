@@ -1,0 +1,28 @@
+Dla podanych zestawów danych i proponowanych modeli oszacuj wartości parametrów a..f,
+które minimalizują średni błąd kwadratowy modelowanej funkcji w podanych punktach.
+
+Dla każdego modelu przedstaw:
+- sposób przygotowania danych do zastosowania prostej regresji liniowej
+- wyznaczone wartości parametrów
+- wykres przedstawiający modelowaną funkcję na tle danych punktów
+- średni błąd kwadratowy dotyczący wartości funkcji w danych punktach
+- największą wartość odchylenia wartości funkcji od danych punktów
+- wartość współczynnika R**2
+- histogram odchyleń wartości funkcji od danych
+- (*) test hipotezy statystycznej, że błędy mają rozkład normalny (test chi-kwadrat
+Pearsona lub test Shapiro-Wilka)
+- komentarz na temat przydatności zastosowania rozważanego modelu
+
+
+
+Dla zestawów danych: dane1.csv, dane2.csv (dwie kolumny: X, wartość)
+Należy rozważyć modele:
+f(X) = a * X
+f(X) = a * X + b
+f(X) = a * X**2 + b * sin(X) + c
+
+
+Dla zestawów danych: dane3.csv, dane4.csv (trzy kolumny: X1, X2, wartość)
+Należy rozważyć modele:
+f(X1, X2) = a * X1 + b * X2 + c
+f(X1, X2) = a * X1**2 + b * X1*X2 + c * X2**2 + d * X1 + e * X2 + f

@@ -1,7 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import math
 
-print("Task 2!\n")
+print("<-----\tTASK INFO\t----->\n\nTask: 2\nAuthor: Oskar Kurczewski\nIndex number: 229935")
 
 # read csv files and add them to a pandas dataframe
 
@@ -10,16 +11,29 @@ data2 = pd.read_csv("data2.csv", names = ["X", "Y"])
 data3 = pd.read_csv("data3.csv", names = ["X1", "X2", "Y"])
 data4 = pd.read_csv("data4.csv", names = ["X1", "X2", "Y"])
 
-# variance
 
-def variancex(dt):
-    meanx = dt.X.mean()
-    varx = 0
+# variance - dataframe version
 
-    for i in range(100):
-        varx += ((dt.X[i] - meanx) * (dt.X[i] - meanx))
+def variance(dt):
+    mean = dt.mean()
+    var = 0
 
-    return varx/100
+    for i in range(len(dt)):
+        var += ((dt[i] - mean) * (dt[i] - mean))
+
+    return var / len(dt)
+
+# variance - list version
+
+def variance(list):
+    mean = sum(list)/len(list)
+    var = 0
+
+    for i in range(len(list)):
+        var += ((list[i] - mean) * (list[i] - mean))
+
+    return var / len(list)
+
 
 # covariance
 
@@ -28,47 +42,122 @@ def covariance(dt):
     meany = dt.Y.mean()
     cov = 0
 
-    for i in range(100):
+    for i in range(len(dt)):
         cov += ((dt.X[i] - meanx) * (dt.Y[i] - meany))
 
-    return cov/100
+    return cov / len(dt)
+
+
+# error
+
+def error(dt, y):
+    err = []
+    for i in range(len(dt)):
+        err.append(dt.Y[i] - y[i])
+    return err
+
+# mse
+
+def meansquareerror(expected, measured):
+    mse = 0
+    for i in range(len(expected)):
+        mse += ((expected[i] - measured[i])**2)
+    return mse / len(expected)
+
+
+# R**2
+
+def rsquared(err, y):
+    fuv = variance(err) / variance(y)
+    mse = 0
+    for i in range(len(y)):
+        mse += (1 - fuv)
+    return mse / len(y)
+
+
+# maximum deviation
+
+def maxdeviation(expected, measured):
+    deviations = []
+    for i in range(len(expected)):
+        deviations.append(math.fabs((expected[i] - measured[i])))
+    return max(deviations)
+
 
 # model 1: f(x) = a * X
 
-def model1(dt):
+def model1figure(dt):
     meanx = dt.X.mean()
     meany = dt.Y.mean()
     a = meany / meanx
-    print('f(x) = ' + str(round(a, 2)) + " * X")
+    print('Model 1: f(x) = ' + str(round(a, 3)) + " * X")
+
+
+# returns an array of expected values
+
+def model1function(dt):
+    meanx = dt.X.mean()
+    meany = dt.Y.mean()
+    a = meany / meanx
+    y = []
+    for i in range(len(dt)):
+        y.append(a*dt.X[i])
+    return y
+
 
 # model 2: f(x) = a * X + b
 
-def model2(dt):
+def model2figure(dt):
     meanx = dt.X.mean()
     meany = dt.Y.mean()
-    a = covariance(dt) / variancex(dt)
+    a = covariance(dt) / variance(dt.X)
     b = meany - a * meanx
-    print('f(x) = ' + str(round(a, 2)) + " * X + " + str(round(b, 2)))
+    print('Model 2: f(x) = ' + str(round(a, 3)) + " * X + " + str(round(b, 3)))
 
-print("\n--- ZESTAW DANYCH 1 ---")
+# returns an array of expected values
 
-model1(data1)
-model2(data1)
-print(variancex(data1))
-print(covariance(data1))
+def model2function(dt):
+    meanx = dt.X.mean()
+    meany = dt.Y.mean()
+    a = covariance(dt) / variance(dt.X)
+    b = meany - a * meanx
+    y = []
+    for i in range(len(dt)):
+        y.append(a * dt.X[i] + b)
+    return y
 
-print("\n--- ZESTAW DANYCH 2 ---")
 
-model1(data2)
-model2(data2)
-print(variancex(data2))
-print(covariance(data2))
+print("\n<-----\tDATA SET 1\t----->\n")
+
+model1figure(data1)
+print("Mean square error - model 1: " + str(round(meansquareerror(model1function(data1), data1.Y), 3)))
+print("Maximum deviation - model 1: " + str(round(maxdeviation(model1function(data1), data1.Y), 3)))
+print("R**2 - model 1: " + str(round(rsquared(error(data1, model1function(data1)), model1function(data1)), 3)) + "\n")
+
+model2figure(data1)
+print("Mean square error - model 2: " + str(round(meansquareerror(model2function(data1), data1.Y), 3)))
+print("Maximum deviation - model 2: " + str(round(maxdeviation(model2function(data1), data1.Y), 3)))
+print("R**2 - model 2: " + str(round(rsquared(error(data1, model2function(data1)), model2function(data1)), 3)) + "\n")
+
+
+print("<-----\tDATA SET 2\t----->\n")
+
+model1figure(data2)
+print("Mean square error - model 1: " + str(round(meansquareerror(model1function(data2), data2.Y), 3)))
+print("Maximum deviation - model 1: " + str(round(maxdeviation(model1function(data2), data2.Y), 3)))
+print("R**2 - model 1: " + str(round(rsquared(error(data2, model1function(data2)), model1function(data2)), 3)) + "\n")
+
+model2figure(data2)
+print("Mean square error - model 2: " + str(round(meansquareerror(model2function(data2), data2.Y), 3)))
+print("Maximum deviation - model 2: " + str(round(maxdeviation(model2function(data2), data2.Y), 3)))
+print("R**2 - model 2: " + str(round(rsquared(error(data2, model2function(data2)), model2function(data2)), 3)) + "\n")
+
 
 # function plotting a dataframe
 
-def twoDimensionGraph(dt, n):
-    plt.figure(n)
-    dt["X"] = pd.Series(list(range(len(dt))))
-    dt.plot(x = "X", y = "Y", color = 'red', marker = 'o', linewidth = '0', markersize = '2')
-    plt.savefig(fname = n.__str__())
-    plt.close(n)
+# def twoDimensionGraph(dt, n):
+#     plt.figure(n)
+#     dt["X"] = pd.Series(list(range(len(dt))))
+#     dt.plot(x = "X", y = "Y", color = 'red', marker = 'o', linewidth = '0', markersize = '2')
+#     plt.savefig(fname = n.__str__())
+#     plt.close(n)
