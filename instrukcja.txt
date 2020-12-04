@@ -14,7 +14,6 @@ Pearsona lub test Shapiro-Wilka)
 - komentarz na temat przydatności zastosowania rozważanego modelu
 
 
-
 Dla zestawów danych: dane1.csv, dane2.csv (dwie kolumny: X, wartość)
 Należy rozważyć modele:
 f(X) = a * X
@@ -26,3 +25,8 @@ Dla zestawów danych: dane3.csv, dane4.csv (trzy kolumny: X1, X2, wartość)
 Należy rozważyć modele:
 f(X1, X2) = a * X1 + b * X2 + c
 f(X1, X2) = a * X1**2 + b * X1*X2 + c * X2**2 + d * X1 + e * X2 + f
+
+
+A = (X.T X)^-1 X.T Y
+
+meshgrid się przyda
