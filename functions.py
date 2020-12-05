@@ -1,5 +1,3 @@
-from mpl_toolkits.mplot3d import Axes3D
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import math
@@ -90,11 +88,21 @@ def model1function(dt):
         y.append(a*dt.X[i])
     return y
 
-# returns a plot of expected and measured values
+# plots expected and measured values
 
 def model1plot(dt):
     plt.scatter(dt.X, dt.Y)
+    plt.title("Model 2: f(X) = a \u22c5 X")
+    plt.xlabel("x")
+    plt.ylabel("y")
     plt.plot(dt.X, model1function(dt), color= "red")
+
+# plots a histogram of deviations
+
+def model1histogram(dt):
+    plt.hist(error(dt, model1function(dt)), color = "orange", bins = 20)
+    plt.title("Model 2: f(X) = a \u22c5 X")
+    plt.savefig(fname = dt.name + "_model_1_histogram.png", dpi = 300)
 
 # model 2: f(x) = a * X + b
 
@@ -118,8 +126,15 @@ def model2function(dt):
 
 def model2plot(dt):
     plt.scatter(dt.X, dt.Y)
+    plt.title("Model 2: f(X) = a \u22c5 X + b")
+    plt.xlabel("x")
+    plt.ylabel("y")
     plt.plot(dt.X, model2function(dt), color= "orange")
 
+def model2histogram(dt):
+    plt.hist(error(dt, model2function(dt)), color = "blue", bins = 20)
+    plt.title("Model 2: f(X) = a \u22c5 X + b")
+    plt.savefig(fname = dt.name + "_model_2_histogram.png", dpi = 300)
 
 # model 3: f(x) = a * X**2 + b * sin(X) + c
 
@@ -133,7 +148,7 @@ def model3figure(dt):
     b = z[0, 2]
     c = z[0, 0]
     print('Model 3: f(x) =', str(round(a, 3)),
-                  "* X^2 +", str(round(b, 3)),
+                  "* X**2 +", str(round(b, 3)),
                "* sin(X) +", str(round(c, 3)))
 
 def model3function(dt):
@@ -151,8 +166,15 @@ def model3function(dt):
 def model3plot(dt):
     plt.scatter(dt.X, dt.Y)
     plt.plot(dt.X, model3function(dt), color= "blue")
-    plt.savefig(fname = dt.name + "plot.svg")
+    plt.title("Model 3: f(X) = a \u22c5 X\u00b2 + b \u22c5 sin(X) + c")
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.savefig(fname = dt.name + "_chart.png", dpi = 300)
 
+def model3histogram(dt):
+    plt.hist(error(dt, model3function(dt)), color = "red", bins = 20)
+    plt.title("Model 3: f(X) = a \u22c5 X\u00b2 + b \u22c5 sin(X) + c")
+    plt.savefig(fname = dt.name + "_model_3_histogram.png", dpi = 300)
 
 # model 4: f(X1, X2) = a * X1 + b * X2 + c
 
@@ -201,12 +223,16 @@ def model4plot(dt):
             zz = np.append(zz, a * xs[i] + b * ys[j] + c)
     zz = zz.reshape(np.size(xx, 0), np.size(yy, 0))
     ax.plot_wireframe(xx, zz, yy)
-    fig.tight_layout()
     ax.set_xlabel('X1', fontsize = 20)
-    ax.set_ylabel('f(X1, X2)', fontsize = 20)
-    ax.set_zlabel('X2', fontsize = 20)
-    plt.savefig(fname = dt.name + "m4plot.svg")
+    ax.set_ylabel('X2', fontsize = 20)
+    ax.set_zlabel('f(X1, X2)', fontsize = 20)
+    plt.title("Model 4: f(X\u2081, X\u2082) = a \u22c5 X\u2081 + b \u22c5 X\u2082 + c")
+    plt.savefig(fname = dt.name + "_model_4_plot.png", dpi = 300)
 
+def model4histogram(dt):
+    plt.hist(error(dt, model4function(dt)), color = "purple", bins = 20)
+    plt.title("Model 4: f(X\u2081, X\u2082) = a \u22c5 X\u2081 + b \u22c5 X\u2082 + c")
+    plt.savefig(fname = dt.name + "_model_4_histogram.png", dpi = 300)
 
 # model 5: f(X1, X2) = a * X1**2 + b * X1*X2 + c * X2**2 + d * X1 + e * X2 + f
 
@@ -267,29 +293,70 @@ def model5plot(dt):
             zz = np.append(zz, a * xs[i]**2 + b * xs[i]*ys[j] + c * ys[j]**2 + d * xs[i] + e * ys[j] + f)
     zz = zz.reshape(np.size(xx, 0), np.size(yy, 0))
     ax.plot_wireframe(xx, zz, yy)
-    fig.tight_layout()
     ax.set_xlabel('X1', fontsize = 20)
-    ax.set_ylabel('f(X1, X2)', fontsize = 20)
-    ax.set_zlabel('X2', fontsize = 20)
-    plt.savefig(fname = dt.name + "m5plot.svg")
+    ax.set_ylabel('X2', fontsize = 20)
+    ax.set_zlabel('f(X1, X2)', fontsize = 20)
+    plt.title("Model 5: f(X\u2081, X\u2082) = a \u22c5 X\u2081\u00b2 + b \u22c5 X\u2081\u22c5X\u2082 + c \u22c5 X\u2081\u00b2 + d \u22c5 X\u2081 + e \u22c5 X\u2082 + f")
+    plt.savefig(fname = dt.name + "_model_5_plot.png", dpi = 300)
+
+def model5histogram(dt):
+    plt.hist(error(dt, model5function(dt)), color = "purple", bins = 20)
+    plt.title("Model 5: f(X\u2081, X\u2082) = a \u22c5 X\u2081\u00b2 + b \u22c5 X\u2081\u22c5X\u2082 + c \u22c5 X\u2081\u00b2 + d \u22c5 X\u2081 + e \u22c5 X\u2082 + f")
+    plt.savefig(fname = dt.name + "_model_5_histogram.png", dpi = 300)
+
+# plotting all histograms and graphs
 
 def plotall(data1, data2, data3, data4):
+
+    # data 1
+
     model1plot(data1)
     model2plot(data1)
     model3plot(data1)
     plt.close()
+    model1histogram(data1)
+    plt.close()
+    model2histogram(data1)
+    plt.close()
+    model3histogram(data1)
+    plt.close()
+
+    # data 2
+
     model1plot(data2)
     model2plot(data2)
     model3plot(data2)
     plt.close()
+    model1histogram(data2)
+    plt.close()
+    model2histogram(data2)
+    plt.close()
+    model3histogram(data2)
+    plt.close()
+
+    # data 3
+
     model4plot(data3)
     plt.close()
     model5plot(data3)
     plt.close()
+    model4histogram(data3)
+    plt.close()
+    model5histogram(data3)
+    plt.close()
+
+    # data 4
+
     model4plot(data4)
     plt.close()
     model5plot(data4)
     plt.close()
+    model4histogram(data4)
+    plt.close()
+    model5histogram(data4)
+    plt.close()
+
+# printing all needed parameters and values
 
 def printall(data1, data2, data3, data4):
     print("\n<-----\tDATA SET 1\t----->\n")
@@ -354,11 +421,11 @@ def printall(data1, data2, data3, data4):
     print("R**2 - model 4: " + str(round(rsquared(error(data3, model4function(data3)), model4function(data3)), 3)) + "\n")
 
     model5figure(data3)
-    print("Mean square error - model 4: ",
+    print("Mean square error - model 5: ",
           str(round(meansquareerror(model5function(data3), data3.Y), 3)))
-    print("Maximum deviation - model 4: ",
+    print("Maximum deviation - model 5: ",
           str(round(maxdeviation(model5function(data3), data3.Y), 3)))
-    print("R**2 - model 4: ",
+    print("R**2 - model 5: ",
           str(round(rsquared(error(data3, model5function(data3)), model5function(data3)), 3)) + "\n")
 
     print("<-----\tDATA SET 4\t----->\n")
@@ -372,9 +439,9 @@ def printall(data1, data2, data3, data4):
           str(round(rsquared(error(data4, model4function(data4)), model4function(data4)), 3)) + "\n")
 
     model5figure(data4)
-    print("Mean square error - model 4: ",
+    print("Mean square error - model 5: ",
           str(round(meansquareerror(model5function(data4), data4.Y), 3)))
-    print("Maximum deviation - model 4: ",
+    print("Maximum deviation - model 5: ",
           str(round(maxdeviation(model5function(data4), data4.Y), 3)))
-    print("R**2 - model 4: ",
+    print("R**2 - model 5: ",
           str(round(rsquared(error(data4, model5function(data4)), model5function(data4)), 3)) + "\n")
