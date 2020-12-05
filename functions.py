@@ -95,7 +95,7 @@ def model1plot(dt):
     plt.title("Model 2: f(X) = a \u22c5 X")
     plt.xlabel("x")
     plt.ylabel("y")
-    plt.plot(dt.X, model1function(dt), color= "red")
+    plt.plot(dt.X, model1function(dt), color= "orange")
 
 # plots a histogram of deviations
 
@@ -129,7 +129,7 @@ def model2plot(dt):
     plt.title("Model 2: f(X) = a \u22c5 X + b")
     plt.xlabel("x")
     plt.ylabel("y")
-    plt.plot(dt.X, model2function(dt), color= "orange")
+    plt.plot(dt.X, model2function(dt), color= "blue")
 
 def model2histogram(dt):
     plt.hist(error(dt, model2function(dt)), color = "blue", bins = 20)
@@ -165,7 +165,7 @@ def model3function(dt):
 
 def model3plot(dt):
     plt.scatter(dt.X, dt.Y)
-    plt.plot(dt.X, model3function(dt), color= "blue")
+    plt.plot(dt.X, model3function(dt), color= "red")
     plt.title("Model 3: f(X) = a \u22c5 X\u00b2 + b \u22c5 sin(X) + c")
     plt.xlabel("x")
     plt.ylabel("y")
@@ -230,7 +230,7 @@ def model4plot(dt):
     plt.savefig(fname = dt.name + "_model_4_plot.png", dpi = 300)
 
 def model4histogram(dt):
-    plt.hist(error(dt, model4function(dt)), color = "purple", bins = 20)
+    plt.hist(error(dt, model4function(dt)), color = "red", bins = 20)
     plt.title("Model 4: f(X\u2081, X\u2082) = a \u22c5 X\u2081 + b \u22c5 X\u2082 + c")
     plt.savefig(fname = dt.name + "_model_4_histogram.png", dpi = 300)
 
@@ -285,7 +285,7 @@ def model5plot(dt):
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection = "3d")
-    ax.scatter(dt.X2, dt.Y, dt.X1, c = "red")
+    ax.scatter(dt.X2, dt.Y, dt.X1, c = "purple")
     zz = np.array([])
     xx, yy = np.meshgrid(np.arange(0, 7, 0.5), np.arange(0, 7, 0.5))
     for i, xs in enumerate(xx):
