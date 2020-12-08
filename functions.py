@@ -69,6 +69,7 @@ def maxdeviation(expected, measured):
         deviations.append(math.fabs((measured[i] - expected[i])))
     return max(deviations)
 
+
 # model 1: f(x) = a * X
 
 def model1figure(dt):
